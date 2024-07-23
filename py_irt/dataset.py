@@ -238,6 +238,54 @@ class Dataset(BaseModel):
             ix_to_subject_id = dict(zip(subject_ids.subject_id, subject_ids.subject_name))
         )
     
+    @classmethod
+    def from_db(cls, df: pd.DataFrame, subject_id_col, item_id_col, obs_col):
+        """
+        This self implemented class is for making a dataset from the format that is read from db
+        the df read from db has three columns, subject_id, item_id, and response (observation)
+        this means that the dataset is already in long format
+
+        Eg.
+        ```python
+        df = pd.DataFrame({
+            'subject_id': ["joe", "joe", "sarah", "joe", "sarah", "juan", "julia"],
+            'item_id': [1, 2, 1, 3, 2, 1, 2],
+            'response': [0, 1, 1, 1, 0, 1, 0],
+        })
+        ```
+        Args:
+            df (pd.DataFrame): A DataFrame containing the data
+        Returns:
+            Dataset: The dataset object
+        """
+
+        item_ids = OrderedSet(df[item_id_col].unique())
+        subject_ids = OrderedSet(df[subject_id_col].unique())
+
+        item_id_to_ix = dict(zip(item_ids, range(len(item_ids))))
+        ix_to_item_id = dict(zip(range(len(item_ids)), item_ids))
+
+        subject_id_to_ix = dict(zip(subject_ids, range(len(subject_ids))))
+        ix_to_subject_id = dict(zip(range(len(subject_ids)), subject_ids))
+
+        observation_subjects = [subject_id_to_ix[subject_id] for subject_id in df[subject_id_col]]
+        observation_items = [item_id_to_ix[item_id] for item_id in df[item_id_col]]
+        observations = list(df[obs_col])
+        training_example = [True for _ in range(df.shape[0])]
+
+        return cls(
+            item_ids = item_ids,
+            subject_ids = subject_ids,
+            item_id_to_ix = item_id_to_ix,
+            ix_to_item_id = ix_to_item_id,
+            subject_id_to_ix = subject_id_to_ix,
+            ix_to_subject_id = ix_to_subject_id,
+            observation_subjects = observation_subjects,
+            observation_items = observation_items,
+            observations = observations,
+            training_example = training_example
+        )
+    
     def to_pandas(self, wide=True):
         """Convert the dataset to a pandas DataFrame
 

@@ -91,6 +91,6 @@ class IrtModel(abc.ABC):
 
         config = IrtConfig(model_type=my_name, **kw)
         trainer = IrtModelTrainer(dataset=dataset, data_path=None, config=config)
-        trainer.train()
+        trainer.train(device=kw.get("device", "cpu"))
         
         return trainer
