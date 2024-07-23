@@ -263,7 +263,7 @@ class FourParamLog(abstract_model.IrtModel):
             EmpiricalMarginal(traces, sites)
             ._get_samples_and_weights()[0]
             .detach()
-            .cpu()
+            .cuda()
             .numpy()
         )
         print(marginal)

@@ -34,7 +34,7 @@ class TestAmortized1PL(unittest.TestCase):
     def test_training(self):
         config = IrtConfig(model_type="amortized_1pl", epochs=2)
         trainer = IrtModelTrainer(config=config, data_path="test_fixtures/minitest.amortized.jsonlines")
-        trainer.train(device="cpu")
+        trainer.train(device="cuda")
         trainer.save("/tmp/parameters.json")
 
     def test_device(self):
@@ -54,7 +54,7 @@ class TestAmortized1PL(unittest.TestCase):
         with self.assertRaises(ValueError):
             m = Amortized1PL(
                 priors="vague", 
-                device="cpu", 
+                device="cuda", 
                 num_items=-100, 
                 num_subjects=100, 
                 verbose=False,
@@ -67,7 +67,7 @@ class TestAmortized1PL(unittest.TestCase):
         with self.assertRaises(ValueError):
             m = Amortized1PL(
                 priors="vague", 
-                device="cpu", 
+                device="cuda", 
                 num_items=100, 
                 num_subjects=-100, 
                 verbose=False,

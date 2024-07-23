@@ -29,11 +29,11 @@ _IRT_REGISTRY = {}
 
 class IrtModel(abc.ABC):
     def __init__(
-        self, *, num_items: int, num_subjects: int, verbose: bool = False, device: str = "cpu"
+        self, *, num_items: int, num_subjects: int, verbose: bool = False, device: str = "cuda"
     ) -> None:
         super().__init__()
-        if device not in ["cpu", "cuda"]:
-            raise ValueError("Options for device are cpu and cuda")
+        if device not in ["cuda", "cuda"]:
+            raise ValueError("Options for device are cuda and cuda")
         if num_items <= 0:
             raise ValueError("Number of items must be greater than 0")
         if num_subjects <= 0:
@@ -91,6 +91,6 @@ class IrtModel(abc.ABC):
 
         config = IrtConfig(model_type=my_name, **kw)
         trainer = IrtModelTrainer(dataset=dataset, data_path=None, config=config)
-        trainer.train(device=kw.get("device", "cpu"))
+        trainer.train(device=kw.get("device", "cuda"))
         
         return trainer

@@ -96,7 +96,7 @@ class Amortized1PL(abstract_model.IrtModel):
         num_items: int, 
         num_subjects: int, 
         verbose: bool = False, 
-        device: str = "cpu",
+        device: str = "cuda",
         vocab_size: int,
         dropout: float,
         hidden: int,
@@ -250,7 +250,7 @@ class Amortized1PL(abstract_model.IrtModel):
     def summary(self, traces, sites):
         """Aggregate marginals for MCM"""
         marginal = (
-            EmpiricalMarginal(traces, sites)._get_samples_and_weights()[0].detach().cpu().numpy()
+            EmpiricalMarginal(traces, sites)._get_samples_and_weights()[0].detach().cuda().numpy()
         )
         print(marginal)
         site_stats = {}

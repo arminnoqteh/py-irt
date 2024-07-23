@@ -31,5 +31,5 @@ class TestMultidim2PL(unittest.TestCase):
     def test_training(self):
         config = IrtConfig(model_type="multidim_2pl", epochs=100, dims=3)
         trainer = IrtModelTrainer(config=config, data_path="test_fixtures/minitest.jsonlines")
-        trainer.train(device="cpu")
+        trainer.train(device="cuda")
         trainer.save("/tmp/parameters.json")

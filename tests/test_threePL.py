@@ -34,7 +34,7 @@ class TestThreePL(unittest.TestCase):
         config = IrtConfig(model_type="3pl", epochs=100, priors="hierarchical")
         trainer = IrtModelTrainer(
             config=config, data_path="test_fixtures/minitest.jsonlines")
-        trainer.train(device="cpu")
+        trainer.train(device="cuda")
         trainer.save("/tmp/parameters.json")
 
     def test_device(self):
@@ -46,11 +46,11 @@ class TestThreePL(unittest.TestCase):
     def test_num_items(self):
         with self.assertRaises(ValueError):
             m = ThreeParamLog(
-                priors="hierarchical", device="cpu", num_items=-100, num_subjects=100, verbose=False
+                priors="hierarchical", device="cuda", num_items=-100, num_subjects=100, verbose=False
             )
 
     def test_num_subjects(self):
         with self.assertRaises(ValueError):
             m = ThreeParamLog(
-                priors="hierarchical", device="cpu", num_items=100, num_subjects=-100, verbose=False
+                priors="hierarchical", device="cuda", num_items=100, num_subjects=-100, verbose=False
             )

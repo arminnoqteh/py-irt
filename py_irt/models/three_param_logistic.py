@@ -50,7 +50,7 @@ class ThreeParamLog(abstract_model.IrtModel):
                  num_items: int,
                  num_subjects: int,
                  verbose=False,
-                 device: str = "cpu",
+                 device: str = "cuda",
                  **kwargs
                  ):
         super().__init__(
@@ -259,7 +259,7 @@ class ThreeParamLog(abstract_model.IrtModel):
     def summary(self, traces, sites):
         marginal = (
             EmpiricalMarginal(traces, sites)._get_samples_and_weights()[
-                0].detach().cpu().numpy()
+                0].detach().cuda().numpy()
         )
         print(marginal)
         site_stats = {}

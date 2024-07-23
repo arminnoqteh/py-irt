@@ -37,7 +37,7 @@ from py_irt.models.two_param_logistic import TwoParamLog
 
 class TestTwoPL(unittest.TestCase):
     def test_fitting(self):
-        device = torch.device("cpu")
+        device = torch.device("cuda")
         models = []
         items = []
         responses = []
@@ -62,13 +62,13 @@ class TestTwoPL(unittest.TestCase):
     def test_training(self):
         config = IrtConfig(model_type="2pl", epochs=100, priors="hierarchical")
         trainer = IrtModelTrainer(config=config, data_path="test_fixtures/minitest.jsonlines")
-        trainer.train(device="cpu")
+        trainer.train(device="cuda")
         trainer.save("/tmp/parameters.json")
 
     def test_priors(self):
         with self.assertRaises(ValueError):
             m = TwoParamLog(
-                priors="testing", device="cpu", num_items=100, num_subjects=100, verbose=False
+                priors="testing", device="cuda", num_items=100, num_subjects=100, verbose=False
             )
 
     def test_device(self):
@@ -80,11 +80,11 @@ class TestTwoPL(unittest.TestCase):
     def test_num_items(self):
         with self.assertRaises(ValueError):
             m = TwoParamLog(
-                priors="vague", device="cpu", num_items=-100, num_subjects=100, verbose=False
+                priors="vague", device="cuda", num_items=-100, num_subjects=100, verbose=False
             )
 
     def test_num_subjects(self):
         with self.assertRaises(ValueError):
             m = TwoParamLog(
-                priors="vague", device="cpu", num_items=100, num_subjects=-100, verbose=False
+                priors="vague", device="cuda", num_items=100, num_subjects=-100, verbose=False
             )

@@ -41,7 +41,7 @@ class Multidim2PL(IrtModel):
         num_subjects: int,
         dims: int = 2,
         verbose=False,
-        device: str = "cpu",
+        device: str = "cuda",
         **kwargs
     ):
         super().__init__(

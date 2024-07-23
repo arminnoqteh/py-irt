@@ -127,7 +127,7 @@ class IrtModelTrainer:
             else:
                 raise TypeError("invalid initializer type")
 
-    def train(self, *, epochs: Optional[int] = None, device: str = "cpu") -> None:
+    def train(self, *, epochs: Optional[int] = None, device: str = "cuda") -> None:
         model_type = self._config.model_type
         if epochs is None:
             epochs = self._config.epochs
